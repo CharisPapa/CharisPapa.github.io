@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Plotlist - Listing HTML5 Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-plot-listing.css">
+    <link rel="stylesheet" href="assets/css/animated.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+<!--
+
+TemplateMo 564 Plot Listing
+
+https://templatemo.com/tm-564-plot-listing
+
+-->
+  </head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="index.html" class="logo">
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->      
+            <a class='menu-trigger'>
+                <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="top-text header-text">
+            <h6>Sentence with highlighted locations:</h6>
+            <h2 id="sentence"></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Scripts -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/animation.js"></script>
+  <script src="assets/js/imagesloaded.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+  <script>
+    function appendData(data,txt) {
+      var mainContainer = document.getElementById("sentence");
+      var div = document.createElement("div");
+      let highlightedSentence = txt;
+      for (var i = 0; i < data.locations.length; i++) {
+        var div = document.createElement("div");
+        highlightedSentence = highlightedSentence.replace(new RegExp(data.locations[i], "gi"), `<span class="highlighted">${data.locations[i]}</span>`);
+      }
+      div.innerHTML = highlightedSentence;
+      mainContainer.appendChild(div);
+    }
+    const searchParams = new URLSearchParams(window.location.search);
+    const txt = searchParams.get("txt");
+    const lang = searchParams.get("lang");
+    const apiUrl = `http://160.40.53.35:9095/api/v1/resources/ner?txt=${encodeURIComponent(txt)}&lang=${encodeURIComponent(lang)}`;
+
+    fetch(apiUrl)
+      .then(function (response) {
+        return response.json();
+        // return response;
+      })
+      .then(function (data) {
+        console.log(data)
+        appendData(data,txt);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  </script>
+
+</body>
+
+</html>
